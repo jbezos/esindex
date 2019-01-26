@@ -1,99 +1,95 @@
-% +--------------------------------------------------+
-% | Typeset this file to get the documentation.      |
-% +--------------------------------------------------+
 %
-%% Copyright (C) 1998-2004, 2006, 2008 Javier Bezos
-%% All Rights Reserved
-%% http://www.tex-tipografia.com
-%%
-%% This work may be distributed and/or modified under the conditions
-%% of the LaTeX Project Public License, either version 1.3 of this
-%% license or (at your option) any later version.  The latest version
-%% of this license is in
-%%     http://www.latex-project.org/lppl.txt
-%% and version 1.3 or later is part of all distributions of LaTeX
-%% version 2003/12/01 or later.
-%%
-%% This work has the LPPL maintenance status "maintained".
-%%
-%% This Current Maintainer of this work is Javier Bezos.
-%%
-%% This work consists of the files esindex.tex and esindex.sty.
+% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
+%
+% This file may be distributed and/or modified under the conditions of
+% the MIT License. A version can be found at the end of this file.
+%
+% Repository: https://github.com/jbezos/esindex
+%
 
 \documentclass{article}
-\usepackage[spanish,activeacute]{babel}
+\usepackage[english,spanish]{babel}
 \spanishdatedel
-\usepackage[cp1252]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 \title{Paquete \textsf{esindex}\footnote{Este
-     archivo est\'a actualmente en la versi\'on 1.4
-     con fecha 2008-09-28.
+     archivo est\'a actualmente en la versi√≥n 1.5 beta
+     con fecha 2019-01-25.
      Esta copia del manual se compuso el~\today.}}
 
- \author{Javier Bezos\footnote{Para comentarios y sugerencias: 
-\texttt{http://www.tex-tipografia.com}.}}
-   
+\author{Javier Bezos\footnote{Para comentarios y sugerencias: 
+\texttt{http://www.texnia.com}.}}
+
 \raggedright
 \parskip=1ex
 
-\date{2008-09-28}
+\date{2019-01-25}
 
 \begin{document}
-	
+
 \maketitle
 
-This package defines the command \verb|\esindex| which
-easies writing Spanish index entries:
+This package defines the command \verb|\esindex| which eases writing
+Spanish index entries:
 \begin{verbatim}
-\esindex{caÒÛn}
+\esindex{ca√±√≥n}
 \end{verbatim}
 is equivalent to
 \begin{verbatim}
-\index{can^^ffon@caÒÛn}
+\index{can^^ffon@ca√±√≥n}
 \end{verbatim}
-Since it is an especifically Spanish tool, the documentation
-is in Spanish.
+As you can see, the package generates the sort key within \TeX{}
+itself, which has a number of advantages.
 
-\vspace*{1pc}
+Although it is a specifically Spanish tool (so most of the
+documentation is in Spanish), the idea behind this package may be
+applied to other languages, and tools to adapt it are provided, too.
+They are explained below.
 
-Este paquete ha sido dise'nado para facilitar la escritura
-de 'indices correctamente alfabetizados en castellano. Su principal orden es
-\verb|\esindex| que convierte a una forma adecuada su argumento.
-As'i por ejemplo,
+Version 1.5 provides tools for other languages and adds support for
+\textsf{luatex} and \textsf{xetex}.
+
+\section{Spanish}
+
+Este paquete ha sido dise√±ado para facilitar la escritura de √≠ndices
+correctamente alfabetizados en castellano. Su principal orden es
+\verb|\esindex|, que convierte a una forma adecuada su argumento. As√≠
+por ejemplo,
 \begin{verbatim}
-\esindex{caÒÛn}
+\esindex{ca√±√≥n}
 \end{verbatim}
 equivale a
 \begin{verbatim}
-\index{can^^ffon@caÒÛn}
+\index{can^^ffon@ca√±√≥n}
 \end{verbatim}
-No es necesario usar \textsf{babel} salvo, l'ogicamente, si los acentos
-est'an escritos en forma de abreviaciones (\verb|'a|, \verb|'e|, etc.)
-en lugar de con los caracteres reales.  En este 'ultimo caso, el paquete
-utiliza ciertas 'ordenes internas de \textsf{babel} por lo que no
-puedo garantizar su funcionamiento correcto con versiones distintas a
-las 3.6 a 3.8.  En caso de que \textsf{esindex} sea incompatible con
-futuras versiones de \textsf{babel} intentar'e adaptarlo en el menor
-tiempo posible.
+No es necesario usar \textsf{babel} salvo, l√≥gicamente, si los acentos
+est√°n escritos en forma de abreviaciones (\verb|'a|, \verb|'e|, etc.)
+en lugar de con los caracteres reales. En este √∫ltimo caso, el paquete
+utiliza ciertas √≥rdenes internas de \textsf{babel}, por lo que no puedo
+garantizar su funcionamiento correcto con versiones distintas a las 3.6
+a 3.27. En caso de que \textsf{esindex} sea incompatible con futuras
+versiones de \textsf{babel} (lo cual no es realmente probable)
+intentar√© adaptarlo en el menor tiempo posible.
 
-Salvo el car'acter \verb|actual| (normalmente \verb|@|) se pueden usar
-todos los caracteres especiales de \textit{MakeIndex}.  Se pueden usar
-convenciones diferentes a las normales, pero en este caso hacen falta
-ajustes adicionales en caso de que los modificados sean \verb|actual|,
-\verb|encap|, \verb|level| o \verb|quote|.  En ese caso basta con
-indicar los caracteres que hay que usar como opciones de paquete.  Por
-ejemplo, si para \verb|quote| decidimos usar \verb|$| en nuestro
-archivo \verb|.ist| particular, tendr'iamos que llamar al paquete del
-siguiente modo:
+Salvo el car√°cter \verb|actual| (normalmente \verb|@|) se pueden usar
+todos los caracteres especiales de \textit{MakeIndex}. Se pueden
+aplicar convenciones diferentes a las normales, pero en este caso hacen
+falta ajustes adicionales en caso de que los modificados sean
+\verb|actual|, \verb|encap|, \verb|level| o \verb|quote|. En ese caso
+basta con indicar los caracteres que hay que usar como opciones de
+paquete. Por ejemplo, si para \verb|quote| decidimos usar \verb|$| en
+nuestro archivo \verb|.ist| particular, tendr√≠amos que llamar al
+paquete del siguiente modo:
 \begin{verbatim}
 \usepackage[quote=$]{esindex}
 \end{verbatim}
 
-Es importante observar que, a diferencia de la opci'on para alem'an de
+Es importante observar que, a diferencia de la opci√≥n para alem√°n de
 \textit{MakeIndex}, el uso de \verb|"| en abreviaciones como \verb|"u|
-es completamente leg'itimo, ya que el paquete reconoce tal
-combinaci'on y la trata aparte.  Lo mismo vale para \verb|'| o
-\verb|~| en caso de que se usaran como car'acter especial.  Es decir
+es completamente leg√≠timo, ya que el paquete reconoce tal combinaci√≥n y
+la trata aparte. Lo mismo vale para \verb|'| o \verb|~| en caso de que
+se usaran como car√°cter especial. Es decir
 \begin{verbatim}
 \esindex{{"!`}Cig"ue'nas{"!}|textbf}
 \end{verbatim}
@@ -102,48 +98,45 @@ equivale a
 \index{{"!`}Ciguen^^ffas{"!}@{"!`}Cig\"ue\~nas{"!}|textbf}
 \end{verbatim}
 
-Sin embargo, el uso del car'acter \verb|quote| ante \verb|encap| o
-\verb|level| no se detecta a menos que el grupo est'e encerrado entre
-llaves.  Por ejemplo, en lugar de \verb/\esindex{Pleca: "|}/ debe
-escribirse \verb/\esindex{Pleca: {"|}}/.  (En realidad en este caso
-podr'ia haberse usado \verb|\index|.  Es tan s'olo un ejemplo.)
+Sin embargo, el uso del car√°cter \verb|quote| ante \verb|encap| o
+\verb|level| no se detecta a menos que el grupo est√© encerrado entre
+llaves. Por ejemplo, en lugar de \verb/\esindex{Pleca: "|}/ debe
+escribirse \verb/\esindex{Pleca: {"|}}/. (En realidad en este caso
+podr√≠a haberse usado \verb|\index|. Es tan s√≥lo un ejemplo.)
 
 Aunque el hecho de que \verb|@| no se pueda usar en \verb|\esindex|
-hace que todav'ia algunas entradas se tengan que hacer <<a mano>>,
-la mayor parte del trabajo se ve considerablemente simplificado.
+hace que todav√≠a algunas entradas se tengan que hacer a mano, la mayor
+parte del trabajo se ve considerablemente simplificado.
 
-Finalmente, hay que se'nalar que con este paquete no se crea en el 
-'indice una entrada propia para la palabras que empiezan por e'ne,
-sino que tan s'olo se a'naden al final de la ene. En el rar'isimo
-caso de que hubiera palabras que empiezan por e'ne habria que
-modificar el archivo \verb|.ind| a mano.
+Finalmente, hay que se√±alar que con este paquete no se crea en el
+√≠ndice una entrada propia para la palabras que empiezan por e√±e, sino
+que tan s√≥lo se a√±aden al final de la ene. En el rar√≠simo caso de que
+hubiera palabras que empiezan por e√±e habr√≠a que modificar el archivo
+\verb|.ind| a mano o bien redefinir de alg√∫n modo las entradas
+generadas.
 
-% La versiÛn 1.2 corrige la supresiÛn incorrecta de acentos en los
-% primeros niveles si habÌa m·s de uno.
-
-La versiÛn 1.3 elimina una incompatibilidad con recientes versiones
-de \LaTeX{} y aÒade nuevas funciones:
+La versi√≥n 1.3 elimina una incompatibilidad con recientes versiones de
+\LaTeX{} y a√±ade nuevas funciones:
 \begin{itemize}
-\item OpciÛn de paquete \verb|ignorespaces|: al formar la clave de 
-ordenaciÛn se suprimen los espacios, de forma que:
-$$\mbox{adentro} < \mbox{a donde} < \mbox{adonde}.$$
-\item OpciÛn de paquete \verb|replaceindex|: el comportamiento de
+\item Opci√≥n de paquete \verb|ignorespaces|: al formar la clave de 
+ordenaci√≥n se suprimen los espacios, de forma que:
+$$\mbox{adentro} < \mbox{a donde} = \mbox{adonde}.$$
+\item Opci√≥n de paquete \verb|replaceindex|: el comportamiento de
 \verb|\index| se reemplaza por el de \verb|\esindex|, aunque en este
 caso no es posible introducir entradas que no se adapten a lo
 requerido por \verb|\esindex|.
 \item La orden \verb|\ignorewords| da
 una lista de palabras separadas por comas que no se cuentan en la
-ordenaciÛn.  Por ejemplo, con \verb|\ignorewords{de}| tendrÌamos:
-$$\mbox{pino albar} < \mbox{pino laricio} < \mbox{pino de montaÒa}.$$
-Distingue la caja, por lo que las formas con may˙sculas hay que darlas
-explÌcitamente, si hicieran falta.
+ordenaci√≥n.  Por ejemplo, con \verb|\ignorewords{de}| tendr√≠amos:
+$$\mbox{pino albar} < \mbox{pino laricio} < \mbox{pino de monta√±a}.$$
+Distingue la caja, por lo que las formas con may√∫sculas hay que darlas
+expl√≠citamente, si hicieran falta.
 \end{itemize}
 
-La versiÛn 1.4 elimina un pequeÒo bicho con \verb|"U| y aÒade nuevas 
-funciones:
+Algunas funciones adicionales son:
 \begin{itemize}
-\item La lista de tÛkenes \verb|\everyesindex| permite dar definiciones 
-locales para establecer el comportamiento de otras Ûrdenes. Por 
+\item La lista de t√≥kenes \verb|\everyesindex| permite dar definiciones
+locales para establecer el comportamiento de otras √≥rdenes. Por
 ejemplo:
 \begin{verbatim}
 \everyesindex{\renewcommand\emph[1]{#1}}
@@ -152,28 +145,124 @@ elimina de la clave esa orden. Con:
 \begin{verbatim}
 \everyesindex{\renewcommand\emph[1]{#1'}}
 \end{verbatim}
-la entrada en cursiva irÌa detr·s de la redonda, si la hubiera. Es 
-una tÈcnica que se puede emplear en otros casos para reajustar el
-orden de entradas idÈnticas.
+la entrada en cursiva ir√≠a detr√°s de la redonda, si la hubiera. Es una
+t√©cnica que se puede emplear en otros casos para reajustar el orden de
+entradas id√©nticas.
+
 \item La orden \verb|\esindexsort| permite predefinir claves asociadas
-a entradas concretas, para ajustar su ordenaciÛn (lo que normalmente
-se consigue aÒadiendo texto adicional para que makeindex lo tenga en
-cuenta).  Estas correspondencias deben darse antes de la apariciÛn del
-primer \verb|\esindex| con ese tÈrmino, y las claves se procesan 
-posteriormente con \verb|ignorespaces|, \verb|\ignorewords| y 
-\verb|\everyesindex|, si est·n activadas.
-Por ejemplo:
+a entradas concretas, para ajustar su ordenaci√≥n (lo que normalmente se
+consigue a√±adiendo texto adicional para que makeindex lo tenga en
+cuenta). Estas correspondencias deben darse antes de la aparici√≥n del
+primer \verb|\esindex| con ese t√©rmino, y las claves se procesan
+posteriormente con \verb|ignorespaces|, \verb|\ignorewords| y
+\verb|\everyesindex|, si est√°n activadas. Por ejemplo:
 \begin{verbatim}
 \esindexsort{adonde}{adonde'1}
-\esindexsort{adÛnde}{adonde'2}
+\esindexsort{ad√≥nde}{adonde'2}
 \esindexsort{a donde}{a donde'7}
-\esindexsort{a dÛnde}{a donde'8}
+\esindexsort{a d√≥nde}{a donde'8}
 \end{verbatim}
-darÌa el orden \emph{adonde, adÛnde, a donde, a dÛnde}, con
-\verb|ignorespaces|, o bien \emph{a donde, a dÛnde,} [probablemente
-otros tÈrminos], \emph{adonde, adÛnde}, sin \verb|ignorespaces|.
+dar√≠a el orden \emph{adonde, ad√≥nde, a donde, a d√≥nde}, con
+\verb|ignorespaces|, o bien \emph{a donde, a d√≥nde,} [probablemente
+otros t√©rminos], \emph{adonde, ad√≥nde}, sin \verb|ignorespaces|.
 \end{itemize}
 
+\section{Other languages}
 
+First, you very likely want to ignore de Spanish specific settings with
+the package option \verb|nospanish|. What \verb|\esindex| does is the
+following:
+
+\begin{enumerate}
+\item Replacements set by \verb|\esindexsort|. See an example above.
+
+\item \verb|\esindexreplace| in \verb|\everyesindex|. See an example
+below.
+
+\item Replacements by \LaTeX{} (protected) expansion, including
+redefinitions in \verb|\everyesindex| and, in Spanish, \verb|\`|,
+\verb|\"| and \verb|\~|. You may force protected expansion at any point
+inside \verb|\everyesindex| with \verb|\esindexexpandkey|. In addition,
+the sort key is stored in \verb|\esindexkey|, which can be manipulated
+directly.
+
+\item Removal of words listed in \verb|\ignoredwords| (maybe not the
+logical place, but real life is not always logical). For example, with
+\verb|\ignorewords{de,la}| the words ‚Äúde‚Äù and ‚Äúla‚Äù (preceded and
+followed by spaces) are removed from the key.
+
+\item Removal of spaces if \verb|ignorespaces|. Very often this is
+similar to the \verb|-l| option of \textit{MakeIndex}.
+
+\item Replacement of `actual' as set by \verb|\esindexactual|, but
+still based on the original \verb|\esindex| argument, without changes.
+For example, with:
+\begin{verbatim}
+\esindexactual{Felipe II}{Felipe II, \textit{rey de Espa√±a}}
+\end{verbatim}
+just write \verb|\esindex{Felipe II}| (as many times as you want), and
+the entry will show ‚ÄúFelipe II, \textit{rey de Espa√±a}‚Äù (the sort key
+is still based on ‚ÄúFelipe II‚Äù, of course).
+
+\end{enumerate}
+
+Do you find it chaotic? Well, you are right. After all this package is
+for Spanish indexes with some readjustments for it to be adapted to
+other languages. A general solution deserves another package. Feel free
+to create one based on this package (MIT license), if you like.
+
+Here is an example of an \verb|\everyesindex|. Like other
+\verb|\every...|'s, it is a token register:
+\begin{verbatim}
+\everyesindex{%
+  \renewcommand\"[1]{#1e}%
+  \renewcommand\textit[1]{#1}%
+  \esindexexpandkey
+  \esindexreplace{√§}{ae}%
+  \esindexreplace{√º}{ue}%
+  \esindexreplace{√∂}{oe}}
+\end{verbatim}
+
+What it does is:
+\begin{enumerate}
+\item Redefines \verb|\textit| so that it is removed to build the key.
+With \verb|\everyesindex{\renewcommand\textit[1]{#1'}}| italics would
+be sorted after upright.
+
+\item Redefines \verb|\"|. Of course, this only works correctly if used
+for this precise expansion.
+
+\item Applies the previous changes with a protected expansion.
+
+\item Make a direct replacement of some characters.
+
+\end{enumerate}
+Remember these changes are not shown -- they are used by
+\textit{MakeIndex} to sort the entries.
+
+As a convenience tool, \verb|\esindexlastchar| is \verb|^^ff| or
+\verb|^^^^ffff|, depending on the engine.
 
 \end{document}
+
+MIT License
+-----------
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
