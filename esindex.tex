@@ -14,8 +14,8 @@
 \usepackage[T1]{fontenc}
 
 \title{Paquete \textsf{esindex}\footnote{Este
-     archivo est\'a actualmente en la versión 1.5 beta
-     con fecha 2019-01-25.
+     archivo est\'a actualmente en la versión 1.5
+     con fecha 2019-01-28.
      Esta copia del manual se compuso el~\today.}}
 
 \author{Javier Bezos\footnote{Para comentarios y sugerencias: 
@@ -24,7 +24,7 @@
 \raggedright
 \parskip=1ex
 
-\date{2019-01-25}
+\date{2019-01-28}
 
 \begin{document}
 
@@ -238,7 +238,9 @@ for this precise expansion.
 
 \end{enumerate}
 Remember these changes are not shown -- they are used by
-\textit{MakeIndex} to sort the entries.
+\textit{MakeIndex} to sort the entries. Note also replacements can be
+language dependent with the appropriate test (eg, with
+\textsf{iflang}).
 
 As a convenience tool, \verb|\esindexlastchar| is \verb|^^ff| or
 \verb|^^^^ffff|, depending on the engine.
