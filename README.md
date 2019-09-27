@@ -7,8 +7,3 @@ that, for example, \esindex{\textit{Höhe}} can be made equivalent to
 License:     MIT
 ________
 Javier Bezos --- http://www.texnia.com
-
-
-
-
-
