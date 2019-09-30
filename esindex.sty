@@ -6,21 +6,8 @@
 %
 % Repository: https://github.com/jbezos/esindex
 %
-% Changes
-%
-% 2006-05-12. Bug fixed. Missing accents in multilevel entries.
-% 2008-09-17. Made compatible with latest LaTeX versions (\IeC).
-%             Added \'\i.
-%             Package option ignorespaces.
-%             Macro \ignorewords.
-% 2008-09-28. Added \everyesindex.
-%             Macro \esindexsort.
-% 2019-01-25. Macro \esindexactual.
-%             Package option nospanish.
-%             Adapted to xe/lua, with:
-%             Macros \esindexreplace, \esindexlastchar, \esindexkey
 
-\ProvidesPackage{esindex}[2019/01/28 v1.5 Spanish indexes]
+\ProvidesPackage{esindex}[2019/09/30 v1.6 Spanish indexes (and more)]
 
 \def\esx@level{`\!}
 \def\esx@actual{`\@}
@@ -36,6 +23,12 @@
 
 \DeclareOption{nospanish}{\esx@spanishfalse}
 
+\newif\ifesx@babel
+
+\DeclareOption{babel}{%
+  \let\esindexlanguage\foreignlanguage
+  \esx@babeltrue}
+
 \DeclareOption*{%
   \@expandtwoargs\in@{=}{\CurrentOption}%
   \ifin@
@@ -50,8 +43,8 @@
     {\string`\expandafter\noexpand\csname\string#2\endcsname}}}
 
 \def\esx@error{\PackageError{esindex}{Unknown index parameter}%
-	   {Except for ignorespaces, nospanish, replaceindex, options^^J%
-     in this package ave the form parameter=value, where^^J%
+	   {Except for ignorespaces, nospanish, babel, replaceindex, ^^J%
+     options in this package ave the form parameter=value, where^^J%
      parameter stands for of the following MakeIndex ones:^^J%
      encap, level, actual, quote}}
 
@@ -141,9 +134,17 @@
       % Set actual, if there is a saved one with \esindexactual.
   \def\esx@a{#1}%
   \@ifundefined{esx@actual@\expandafter\strip@prefix\meaning\esx@a}%
-    {\def\esx@a{#1}}%
+    {}%
     {\expandafter\let\expandafter\esx@a
        \csname esx@actual@\expandafter\strip@prefix\meaning\esx@a\endcsname}%
+      % Wrap with the language, if not main (babel option). This idea
+      % can be extended to consider more generic contexts
+  \ifesx@babel
+    \bbl@ifsamestring\languagename\bbl@main@language
+      {}%
+      {\@temptokena\expandafter{\esx@a}%
+       \edef\esx@a{\string\esindexlanguage{\languagename}{\the\@temptokena}}}%
+  \fi
       % Add actual, and go to the next ! level
   \toks@\expandafter{\esx@g}%
   \def\esx@b{#2}%

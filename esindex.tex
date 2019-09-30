@@ -7,31 +7,60 @@
 % Repository: https://github.com/jbezos/esindex
 %
 
-\documentclass{article}
+\documentclass[a4paper]{ltxguide}
+
 \usepackage[english,spanish]{babel}
 \spanishdatedel
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\title{Paquete \textsf{esindex}\footnote{Este
-     archivo est\'a actualmente en la versión 1.5
-     con fecha 2019-01-28.
-     Esta copia del manual se compuso el~\today.}}
+\title{\textsf{esindex}\\\large 1.6\quad 2019-09-30}
 
-\author{Javier Bezos\footnote{Para comentarios y sugerencias: 
-\texttt{http://www.texnia.com}.}}
+\author{Javier Bezos}
 
 \raggedright
-\parskip=1ex
+\parskip=.8ex
+\advance\oddsidemargin-.7cm
+\advance\textwidth1.8cm
+\addtolength{\textheight}{3.5cm}
+\addtolength{\topmargin}{-2cm}
 
-\date{2019-01-28}
+\usepackage{xcolor,bera}
+
+\definecolor{notes}{rgb}{.75, .3, .3}%
+
+\makeatletter
+\def\@begintheorem#1#2{%
+  \list{}{}%
+  \global\advance\@listdepth\m@ne
+  \item[{\sffamily\bfseries\color{notes}\MakeUppercase{#1}}]}%
+\makeatother
+\newtheorem{warning}{Warning}
+\newtheorem{note}{Note}
+\newtheorem{example}{Example}
 
 \begin{document}
 
-\maketitle
+\vspace*{1cm}
+{\fontsize{48}{48}\selectfont \color{notes}{esindex}\par}
+{\LARGE Generating automatically sort keys for \textit{MakeIndex}
+with \LaTeX\par}
+\vspace*{1ex}
+Version 1.6 (2019-09-30)\par
+Javier Bezos (\texttt{http://www.texnia.com})
 
-This package defines the command \verb|\esindex| which eases writing
-Spanish index entries:
+\vspace*{6ex}
+
+{\small\itshape Please, report any issues you find in
+  \texttt{https://github.com/jbezos/esindex/issues}.\par}
+
+This package defines the command \verb|\esindex|, which adds sort keys
+to the index entries for you. Although originally a specifically Spanish
+tool (so part of the documentation is in Spanish), the idea behind this
+package may be applied to other languages, and tools to adapt it are
+provided. They are explained below, section 2.
+
+So,
 \begin{verbatim}
 \esindex{cañón}
 \end{verbatim}
@@ -39,16 +68,23 @@ is equivalent to
 \begin{verbatim}
 \index{can^^ffon@cañón}
 \end{verbatim}
-As you can see, the package generates the sort key within \TeX{}
-itself, which has a number of advantages.
 
-Although it is a specifically Spanish tool (so most of the
-documentation is in Spanish), the idea behind this package may be
-applied to other languages, and tools to adapt it are provided, too.
-They are explained below.
+\verb|\index| is not touched at all (except if requested with the package
+option \verb|replaceindex|).
+
+As you can see, the package generates the sort key within \TeX{}
+itself, which has a number of advantages (and some disadvantages, of
+course).
 
 Version 1.5 provides tools for other languages and adds support for
 \textsf{luatex} and \textsf{xetex}.
+
+Version 1.6 adds a package option -- with \verb|babel| the `actual' value
+(ie, the text to be printed in the index) is wrapped with
+\verb|\foreignlanguage| if the current language is not the main one
+(this replacement comes after \verb|\esindexactual|). Actually, the
+macro is \verb|\esindexlanguage|, which by default is `let' to the
+\textsf{babel} macro.
 
 \section{Spanish}
 
@@ -151,9 +187,9 @@ entradas idénticas.
 
 \item La orden \verb|\esindexsort| permite predefinir claves asociadas
 a entradas concretas, para ajustar su ordenación (lo que normalmente se
-consigue añadiendo texto adicional para que makeindex lo tenga en
-cuenta). Estas correspondencias deben darse antes de la aparición del
-primer \verb|\esindex| con ese término, y las claves se procesan
+consigue añadiendo texto adicional para que \textsf{makeindex} lo tenga
+en cuenta). Estas correspondencias deben darse antes de la aparición
+del primer \verb|\esindex| con ese término, y las claves se procesan
 posteriormente con \verb|ignorespaces|, \verb|\ignorewords| y
 \verb|\everyesindex|, si están activadas. Por ejemplo:
 \begin{verbatim}
@@ -206,7 +242,7 @@ is still based on “Felipe II”, of course).
 
 \end{enumerate}
 
-Do you find it chaotic? Well, you are right. After all this package is
+Do you find it chaotic? Well, you are right. After all this package was
 for Spanish indexes with some readjustments for it to be adapted to
 other languages. A general solution deserves another package. Feel free
 to create one based on this package (MIT license), if you like.
@@ -237,13 +273,61 @@ for this precise expansion.
 \item Make a direct replacement of some characters.
 
 \end{enumerate}
+Note there is a pattern: first flatten the key by removing macros, and
+then the resulting unmarked text is processed to replace some chars.
+
 Remember these changes are not shown -- they are used by
 \textit{MakeIndex} to sort the entries. Note also replacements can be
-language dependent with the appropriate test (eg, with
+made language dependent with the appropriate test (eg, with
 \textsf{iflang}).
 
 As a convenience tool, \verb|\esindexlastchar| is \verb|^^ff| or
 \verb|^^^^ffff|, depending on the engine.
+
+You can play with \textsf{lua} inside \verb|\everyesindex|, too. For
+example, to convert at once things like \textit{2,3-dimetilfenol} to
+\textit{dimetilfenol}:
+\begin{verbatim}
+\everyesindex{
+  \directlua{
+    token.set_macro('esindexkey',
+                    string.gsub([[\esindexkey]], '^[-0-9,]+', ''))
+  }}
+\end{verbatim}
+
+It is just the concept (for example, it fails if the key contains
+\verb|]]|).
+
+\section{Final remarks}
+
+Indexing has many subtleties. Recommended readings are:
+\begin{itemize}
+  \item \textit{Guidelines for Alphabetical Arrangement of Letters and
+  Sorting of Numerals and Other Symbols},
+  \verb|https://www.niso.org/sites/default/files/2017-08/tr03.pdf|
+  \item \textit{Guidelines for Indexes and Related Information Retrieval
+  Devices},
+  \verb|https://www.niso.org/sites/default/files/2017-08/tr02.pdf|
+  \item \textit{Unicode Collation Algorithm},
+  \verb|https://unicode.org/reports/tr10/|,
+  \item \textit{Unicode Locale Data Markup Language (LDML)}, part 5,
+  \textit{Collation},
+  \verb|http://www.unicode.org/reports/tr35/tr35-collation.html|.
+\end{itemize}
+
+There are at least 3 tasks, from \LaTeX{} to a suitable key (eg,
+\verb|$\delta$| to \verb|delta| or whatever you want), collating these
+keys, and generate the formated index in a form \LaTeX{}
+understands.\footnote{There can be also sub-tasks. For example, the
+last task is best split in two sub-tasks, namely, first generate a
+sorted list of terms, and then format them, but unfortunately, most
+\texttt{ist} styles output a formatted list. We also need to format and
+collapse locators and so on.} With \textsf{makeindex} these 3 steps are
+intermingled, and so does \textsf{esindex}. This is another reason why
+a general solution deserves a completely new package. However, with
+some patience you can do many useful things with \textsf{esindex}, even
+sorting words in non-Latin scripts (at least, with the most basic
+rules).
 
 \end{document}
 
