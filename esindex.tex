@@ -14,7 +14,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\title{\textsf{esindex}\\\large 1.6\quad 2019-09-30}
+\title{\textsf{esindex}\\\large 1.7\quad 2019-10-10}
 
 \author{Javier Bezos}
 
@@ -46,7 +46,8 @@
 {\LARGE Generating automatically sort keys for \textit{MakeIndex}
 with \LaTeX\par}
 \vspace*{1ex}
-Version 1.6 (2019-09-30)\par
+Version 1.7 (2019-10-10)\par
+\texttt{https://github.com/jbezos/esindex}\par
 Javier Bezos (\texttt{http://www.texnia.com})
 
 \vspace*{6ex}
@@ -85,6 +86,19 @@ Version 1.6 adds a package option -- with \verb|babel| the `actual' value
 (this replacement comes after \verb|\esindexactual|). Actually, the
 macro is \verb|\esindexlanguage|, which by default is `let' to the
 \textsf{babel} macro.
+
+Version 1.7 (besides fixing a bug with xe/lua) adds multilevel
+comparisons (up to three levels, ie, primary, secondary and tertiary).
+For example:
+\begin{verbatim}
+\esindexreplacesub{å}{a}{2}%
+\esindexreplacesub{à}{a}{1}%
+\end{verbatim}
+creates a two-level key sorting \verb|à| before \verb|å|. For a
+three-level key use \verb|\esindexreplacesubsub| (with 4 arguments). With
+\verb|\esindexexpandkeys| the three levels are expanded. (Internally,
+with the definitions above the key for \verb|ràpid| is
+\verb|rapid^^Ar1pid|.)
 
 \section{Spanish}
 
@@ -282,7 +296,8 @@ made language dependent with the appropriate test (eg, with
 \textsf{iflang}).
 
 As a convenience tool, \verb|\esindexlastchar| is \verb|^^ff| or
-\verb|^^^^ffff|, depending on the engine.
+\verb|^^^^ffff| (\verb|^^^^^^10ffff| in \textsf{luatex}), depending on
+the engine.
 
 You can play with \textsf{lua} inside \verb|\everyesindex|, too. For
 example, to convert at once things like \textit{2,3-dimetilfenol} to

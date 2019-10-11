@@ -18,6 +18,11 @@ in the document.
 ### Recent changes
 
 ```
+1.7   2019-10-10
+      - Fix - because of a change in a macro name, it stopped
+        working with xe/lua
+      - Multi-level comparisons (up to 3), to better sort the items.
+      
 1.6   2019-09-30
       - Package option 'babel', which wraps each entry not in the main
         language with \foreignlanguage (or other macro).
