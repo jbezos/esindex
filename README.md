@@ -18,6 +18,10 @@ in the document.
 ### Recent changes
 
 ```
+1.8   2024-03-27
+      - Fix - Some replacements stopped working in pdflatex with utf8
+        because of a change the LaTeX LICR.
+      
 1.7   2019-10-10
       - Fix - because of a change in a macro name, it stopped
         working with xe/lua

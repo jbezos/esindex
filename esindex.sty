@@ -1,5 +1,5 @@
 %
-% Copyright (C) 1998-2019 Javier Bezos http://www.texnia.com
+% Copyright (C) 1998-2024 Javier Bezos http://www.texnia.com
 %
 % This file may be distributed and/or modified under the conditions of
 % the MIT License. A version can be found at the end of this file.
@@ -7,7 +7,7 @@
 % Repository: https://github.com/jbezos/esindex
 %
 
-\ProvidesPackage{esindex}[2019/10/10 v1.7 Spanish indexes (and more)]
+\ProvidesPackage{esindex}[2024/04/27 v1.8 Spanish indexes (and more)]
 
 \def\esx@level{`\!}
 \def\esx@actual{`\@}
@@ -92,15 +92,40 @@
 \gdef\esx@bar@eat#1|{\def\esx@a{|#1}}
 }
 
-\gdef\esindexexpandkey{%
-  \protected@edef\esindexkey{\esindexkey}}
+\gdef\esx@tolicr#1#2{%
+  \@ifundefined{u8\string:\string#1\string#2}%
+    {\unexpanded{#1#2}}%
+    {\@nameuse{u8\string:\string#1\string#2}}}
+
+\begingroup
+  \catcode`\^^c2=\active
+  \catcode`\^^c3=\active
+  \gdef\esx@expandkey#1{%
+    \ifnum\catcode`\^^c2=\active \ifnum\catcode`\^^c3=\active
+      \def\esx@a{^^c2^^c3}%
+      \protected@edef\esx@b{\esx@a}%
+      \ifx\esx@a\esx@b
+        \let\esx@cii ^^c2%
+        \let\esx@ciii ^^c3%
+        \def ^^c2{\esx@tolicr ^^c2}%
+        \def ^^c3{\esx@tolicr ^^c3}%
+        \protected@edef#1{#1}%
+        \let ^^c2\esx@cii
+        \let ^^c3\esx@ciii
+      \else
+        \protected@edef#1{#1}%
+      \fi
+    \fi\fi}
+\endgroup
+
+\gdef\esindexexpandkey{\esx@expandkey\esindexkey}
 \gdef\esindexexpandsubkey{%
   \ifx\esindexsubkey\relax\else
-    \protected@edef\esindexsubkey{\esindexsubkey}%
+    \esx@expandkey\esindexsubkey
   \fi}
 \gdef\esindexexpandsubsubkey{%
   \ifx\esindexsubsubkey\relax\else
-    \protected@edef\esindexsubsubkey{\esindexsubsubkey}%
+    \esx@expandkey\esindexsubsubkey
   \fi}
 
 \gdef\esindexexpandkeys{%
